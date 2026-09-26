@@ -76,3 +76,9 @@ form {
   resize: vertical;
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.mileageMonetaryValue {
+  padding: 0.75rem;
+  color: var(--colour-text-light);
+  background-color: var(--colour-secondary);
+}

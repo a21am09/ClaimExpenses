@@ -8,10 +8,12 @@ on:
     branches:
     - main
     - uat
+    - development
   pull_request:
     branches:
     - main
     - uat
+    - development
 
 jobs:
   build:
