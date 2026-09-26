@@ -84,7 +84,8 @@ function App() {
           <p className='mileageMonetaryValue'>Value of mileage expense: <strong>£{expenseMonetaryValue}</strong></p> : null
         }
         
-
+        {console.log(expenseMonetaryValue)}
+        {console.log(typeof expenseData.inputValue)}
 
 
       </form>
