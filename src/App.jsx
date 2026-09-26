@@ -1,41 +1,92 @@
 import { useState } from 'react'
 import './App.css'
+import { expenseValue } from './utils/expenseUtils.js'
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  //State for expense data inputted
+  const [expenseData, setExpenseData] = useState({
+    expenseType: 'mileage',
+    description: '',
+    inputValue: 0,
+    date: ''
+  });
+
+  //Update data when input fields are changed
+  function handleInputChange(e) {
+    const { name, value } = e.target;
+    setExpenseData((prevData) => ({
+      ...prevData,
+      [name]: value
+    }));
+  }
+
+  const expenseMonetaryValue = expenseValue(expenseData.expenseType, expenseData.inputValue);
 
   return (
-    <main className="appContainer">
-      <header className="appHeader">
+    <main className='appContainer'>
+
+      <header className='appHeader'>
         <h1>Expense Claims</h1>
       </header> 
+
       <p>Enter details of your expense into the form to begin your claim.</p>
+
       <form onSubmit={(e) => {e.preventDefault()}} noValidate>
-        <div className="formGroup">
-          <label htmlFor="expenseType">Expense type</label>
+
+        <div className='formGroup'>
+          <label htmlFor='expenseType'>Expense type</label>
           <select
-            id="expenseType"
-            name="type"
+            id='expenseType'
+            name='expenseType'
+            value={expenseData.expenseType}
+            onChange={handleInputChange}
             >
-              <option value="mileage">Mileage</option>
-              <option value="accommodation">Accommodation</option>
-              <option value="Sustenance">Sustenance</option>
-              <option value="Public transport">Public transport</option>
-              <option value="Other">Other</option>
+              <option value='mileage'>Mileage</option>
+              <option value='accommodation'>Accommodation</option>
+              <option value='sustenance'>Sustenance</option>
+              <option value='Public transport'>Public transport</option>
+              <option value='other'>Other</option>
           </select>
         </div>
-        <div className="formGroup">
-          <label htmlFor="expenseDescription">Description</label>
-          <textarea id="expenseDescription" name="description"rows="2" columns="50" placeholder="Enter a description of your expense" />
+
+        <div className='formGroup'>
+          <label htmlFor='expenseDescription'>Description</label>
+          <textarea
+            id='expenseDescription'
+            name='description'
+            rows='2'
+            columns='50'
+            onChange={handleInputChange}
+            placeholder='Enter a description of your expense'
+          />
         </div>
-        <div className="formGroup">
-          <label htmlFor="expenseAmount">Amount</label>
-          <input id="expenseAmount" name="amount" type="number" placeholder="Enter the amount of your expense" />
+
+        <div className='formGroup'>
+          <label htmlFor='expenseDate'>Date</label>
+          <input id='expenseDate' name='date' type='date' onChange={handleInputChange} />
         </div>
-        <div className="formGroup">
-          <label htmlFor="expenseDate">Date</label>
-          <input id="expenseDate" name="date" type="date" />
+
+        <div className='formGroup'>
+          <label htmlFor='expenseInputValue'>
+            {expenseData.expenseType === 'mileage' ? 'Miles' : 'Amount'}
+          </label>
+          <input
+            id='expenseInputValue'
+            name='inputValue'
+            type='number'
+            placeholder={expenseData.expenseType === 'mileage' ? 'Enter the number of miles traveled' : 'Enter the amount of your expense'}
+            onChange={handleInputChange}
+          />
         </div>
+
+        {expenseData.expenseType === 'mileage' && expenseMonetaryValue > 0 ?
+          <p className='mileageMonetaryValue'>Value of mileage expense: <strong>£{expenseMonetaryValue}</strong></p> : null
+        }
+        
+
+
+
       </form>
 
     </main>
