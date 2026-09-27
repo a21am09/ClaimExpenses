@@ -50,4 +50,38 @@ describe('Expense Claims App', () => {
     expect(screen.getByLabelText(/Date/i)).toHaveValue('');
     expect(screen.getByLabelText(/Miles/i)).toHaveValue(null);
   });
+
+  it('adds an expense and dispays it on the review screen', async () => {
+    render(<App />);
+    await userEvent.type(screen.getByLabelText(/Description/i), 'Test description');
+    await userEvent.type(screen.getByLabelText(/Miles/i), '100');
+    await userEvent.type(screen.getByLabelText(/Date/i), '01/06/2026');
+    await userEvent.click(screen.getByRole('button', { name: /Add expense/i }));
+    await userEvent.click(screen.getByRole('button', { name: /Review expenses/i }));
+
+    expect(screen.getByText(/Expenses on this claim/i)).toBeInTheDocument();
+    expect(screen.getByText(/Test description/i)).toBeInTheDocument();
+  });
+
+  it('adds multiple expenses and dispays each on the review screen', async () => {
+    render(<App />);
+
+    // Expense 1
+    await userEvent.type(screen.getByLabelText(/Description/i), 'Travel to training');
+    await userEvent.type(screen.getByLabelText(/Miles/i), '100');
+    await userEvent.type(screen.getByLabelText(/Date/i), '01/06/2026');
+    await userEvent.click(screen.getByRole('button', { name: /Add expense/i }));
+
+    // Expense 2
+    await userEvent.type(screen.getByLabelText(/Description/i), 'Emergency travel');
+    await userEvent.type(screen.getByLabelText(/Miles/i), '200');
+    await userEvent.type(screen.getByLabelText(/Date/i), '02/06/2026');
+    await userEvent.click(screen.getByRole('button', { name: /Add expense/i }));
+
+    await userEvent.click(screen.getByRole('button', { name: /Review expenses/i }));
+
+    expect(screen.getByText(/Expenses on this claim/i)).toBeInTheDocument();
+    expect(screen.getByText(/Travel to training/i)).toBeInTheDocument();
+    expect(screen.getByText(/Emergency travel/i)).toBeInTheDocument();
+  });
 })
