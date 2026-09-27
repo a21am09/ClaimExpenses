@@ -8,9 +8,15 @@ function App() {
   const [expenseData, setExpenseData] = useState({
     expenseType: 'mileage',
     description: '',
-    inputValue: 0,
-    date: ''
+    date: '',
+    inputValue: '',
   });
+
+  const [expenses, setExpenses] = useState([]);
+
+  function addExpense(newExpense) {
+    setExpenses((currentExpenses) => [...currentExpenses, newExpense]);
+  };
 
   //Update data when input fields are changed
   function handleInputChange(e) {
@@ -19,6 +25,24 @@ function App() {
       ...prevData,
       [name]: value
     }));
+  };
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const newExpense = {
+      type: expenseData.expenseType,
+      description: expenseData.description,
+      date: expenseData.date,
+      inputValue: expenseData.inputValue,
+      monetaryValue: expenseValue(expenseData.expenseType, expenseData.inputValue),
+    };
+    addExpense(newExpense);
+    setExpenseData({
+      expenseType: expenseData.expenseType,
+      description: '',
+      date: '',
+      inputValue: '',
+    })
   }
 
   const expenseMonetaryValue = expenseValue(expenseData.expenseType, expenseData.inputValue);
@@ -32,7 +56,7 @@ function App() {
 
       <p>Enter details of your expense into the form to begin your claim.</p>
 
-      <form onSubmit={(e) => {e.preventDefault()}} noValidate>
+      <form onSubmit={handleSubmit} noValidate>
 
         <div className='formGroup'>
           <label htmlFor='expenseType'>Expense type</label>
@@ -55,6 +79,7 @@ function App() {
           <textarea
             id='expenseDescription'
             name='description'
+            value={expenseData.description}
             rows='2'
             columns='50'
             onChange={handleInputChange}
@@ -64,7 +89,7 @@ function App() {
 
         <div className='formGroup'>
           <label htmlFor='expenseDate'>Date</label>
-          <input id='expenseDate' name='date' type='date' onChange={handleInputChange} />
+          <input id='expenseDate' name='date' type='date' value={expenseData.date} onChange={handleInputChange} />
         </div>
 
         <div className='formGroup'>
@@ -77,17 +102,15 @@ function App() {
             type='number'
             placeholder={expenseData.expenseType === 'mileage' ? 'Enter the number of miles traveled' : 'Enter the amount of your expense'}
             onChange={handleInputChange}
+            value={expenseData.inputValue}
           />
         </div>
 
         {expenseData.expenseType === 'mileage' && expenseMonetaryValue > 0 ?
           <p className='mileageMonetaryValue'>Value of mileage expense: <strong>£{expenseMonetaryValue}</strong></p> : null
         }
-        
-        {console.log(expenseMonetaryValue)}
-        {console.log(typeof expenseData.inputValue)}
 
-
+        <button type='submit'>Add expense</button>
       </form>
 
     </main>
