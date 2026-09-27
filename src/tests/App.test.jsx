@@ -38,5 +38,16 @@ describe('Expense Claims App', () => {
 
     expect(screen.queryByText(/Value of mileage expense:/i)).not.toBeInTheDocument();
   });
-})
 
+  it('resets the input fields after submitting the form', async () => {
+    render(<App />);
+    await userEvent.type(screen.getByLabelText(/Description/i), 'Test description');
+    await userEvent.type(screen.getByLabelText(/Miles/i), '100');
+    await userEvent.type(screen.getByLabelText(/Date/i), '01/06/2026');
+    await userEvent.click(screen.getByRole('button', { name: /Add expense/i }));
+
+    expect(screen.getByLabelText(/Description/i)).toHaveValue('');
+    expect(screen.getByLabelText(/Date/i)).toHaveValue('');
+    expect(screen.getByLabelText(/Miles/i)).toHaveValue(null);
+  });
+})
