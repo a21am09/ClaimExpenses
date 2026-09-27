@@ -1,8 +1,53 @@
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import App from '/src/App.jsx'
 
-describe('App', () => {
+describe('Expense Claims App', () => {
   it('renders the App component', () => {
-    render(<App />)
+    render(<App />);
   })
+
+  it('renders input fields for expense type, description, amount, and date', () => {
+    render(<App />);
+    const expenseTypeInput = screen.getByLabelText(/Expense type/i);
+    const descriptionInput = screen.getByLabelText(/Description/i);
+    const valueInput = screen.getByLabelText(/Miles/i);
+    const dateInput = screen.getByLabelText(/Date/i);
+  });
+
+  it('displays the calculated mileage expense when the expense type is set to "mileage" and a value is entered', async () => {
+    render(<App />);
+    const expenseTypeInput = screen.getByLabelText(/Expense type/i);
+    const valueInput = screen.getByLabelText(/Miles/i);
+
+    await userEvent.selectOptions(expenseTypeInput, 'mileage');
+    await userEvent.type(valueInput, '100');
+
+    expect(screen.getByText(/Value of mileage expense:/i)).toBeInTheDocument();
+  });
+
+  it('does not display the calculated mileage expense when the expense type is not "mileage"', async () => {
+    render(<App />);
+    const expenseTypeInput = screen.getByLabelText(/Expense type/i);
+
+    await userEvent.selectOptions(expenseTypeInput, 'other');
+
+    // valueInput declared after selecting expense type to ensure correct label is used
+    const valueInput = screen.getByLabelText(/Amount/i);
+    await userEvent.type(valueInput, '100');
+
+    expect(screen.queryByText(/Value of mileage expense:/i)).not.toBeInTheDocument();
+  });
+
+  it('resets the input fields after submitting the form', async () => {
+    render(<App />);
+    await userEvent.type(screen.getByLabelText(/Description/i), 'Test description');
+    await userEvent.type(screen.getByLabelText(/Miles/i), '100');
+    await userEvent.type(screen.getByLabelText(/Date/i), '01/06/2026');
+    await userEvent.click(screen.getByRole('button', { name: /Add expense/i }));
+
+    expect(screen.getByLabelText(/Description/i)).toHaveValue('');
+    expect(screen.getByLabelText(/Date/i)).toHaveValue('');
+    expect(screen.getByLabelText(/Miles/i)).toHaveValue(null);
+  });
 })
