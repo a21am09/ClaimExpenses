@@ -1,3 +1,4 @@
+import { formatExpenseType } from "../utils/expenseUtils"
 export default function ReviewExpenses ({expenses, onNavigateBackwards}) {
     return (
         <section>
@@ -8,7 +9,7 @@ export default function ReviewExpenses ({expenses, onNavigateBackwards}) {
                         <article className='expenseListItem'>
                             <div className='expenseInfoLeft'>
                                 <h3>{expense.description}</h3>
-                                <p>{expense.type} on {expense.date}</p>
+                                <p>{formatExpenseType(expense.type)} on {expense.date}</p>
                             </div>
                             <div className='expenseInfoRight'>
                                 <p><strong>£{expense.monetaryValue}</strong></p>

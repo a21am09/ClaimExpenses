@@ -19,3 +19,23 @@ export function expenseValue(expenseType, inputValue) {
   }
   return Number(inputValue).toFixed(2);
 }
+
+// Format dates into dd/mm/yyyy
+export function formatDate(date) {
+  const dateObject = new Date(date);
+  let day = dateObject.getDate();
+  let month = dateObject.getMonth() + 1;
+  let year = dateObject.getFullYear()
+
+  day = day < 10 ? `0${day}` : day;
+  month = month < 10 ? `0${month}` : month;
+
+    return (
+      `${day}/${month}/${year}`
+    )
+}
+
+// Format expense types with capitals
+export function formatExpenseType(expenseType) {
+  return String(expenseType).charAt(0).toUpperCase() + String(expenseType).slice(1);
+}
