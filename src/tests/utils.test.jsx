@@ -1,5 +1,5 @@
 import {describe, it, expect} from 'vitest';
-import { calculateMileageExpense } from '../utils/expenseUtils';
+import { calculateMileageExpense, formatDate, formatExpenseType } from '../utils/expenseUtils';
 
 describe('calculateMileageExpense', () => {
   it('should calculate the correct expense amount for given mileage', () => {
@@ -20,3 +20,30 @@ describe('calculateMileageExpense', () => {
     expect(calculateMileageExpense(undefined)).toBe(0);
   });
 });
+
+describe('formatDate', () => {
+  it('should return the date in format dd/mm/yyyy', () => {
+
+    // Different separating characters
+    expect(formatDate('2026-11-25')).toBe('25/11/2026');
+    expect(formatDate('2026/11/25')).toBe('25/11/2026');
+    expect(formatDate('2026.11.25')).toBe('25/11/2026');
+
+    // Dates with single digit day or month
+    expect(formatDate('2026-11-2')).toBe('02/11/2026');
+    expect(formatDate('2026-11-02')).toBe('02/11/2026');
+    expect(formatDate('2026-3-25')).toBe('25/03/2026');
+    expect(formatDate('2026-03-25')).toBe('25/03/2026');
+  });
+})
+
+describe('formatExpenseType', () => {
+  it('should capitalise the first letter in the first word', () => {
+    expect(formatExpenseType('mileage')).toBe('Mileage');
+    expect(formatExpenseType('accommodation')).toBe('Accommodation');
+    expect(formatExpenseType('sustenance')).toBe('Sustenance');
+    expect(formatExpenseType('public transport')).toBe('Public transport');
+    expect(formatExpenseType('other')).toBe('Other');
+    expect(formatExpenseType('new extra option')).toBe('New extra option');
+  })
+})

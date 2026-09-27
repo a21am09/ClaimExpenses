@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { expenseValue } from '../utils/expenseUtils.js'
+import { expenseValue, formatDate } from '../utils/expenseUtils.js'
 
 export default function ExpenseInput({ expenses, onAddExpense, onNavigateForwards }) {
 
@@ -25,7 +25,7 @@ export default function ExpenseInput({ expenses, onAddExpense, onNavigateForward
         const newExpense = {
             type: expenseData.expenseType,
             description: expenseData.description,
-            date: expenseData.date,
+            date: formatDate(expenseData.date),
             inputValue: expenseData.inputValue,
             monetaryValue: expenseValue(expenseData.expenseType, expenseData.inputValue),
         };
