@@ -1,4 +1,4 @@
-import { formatExpenseType } from "../utils/expenseUtils"
+import { formatExpenseType, sumExpenses } from "../utils/expenseUtils"
 export default function ReviewExpenses ({expenses, onNavigateBackwards}) {
     return (
         <section>
@@ -21,7 +21,7 @@ export default function ReviewExpenses ({expenses, onNavigateBackwards}) {
 
             <div className='claimTotal'>
                 <span>Total claim</span>
-                <strong>£Total</strong>
+                <strong>£{sumExpenses(expenses)}</strong>
             </div>
 
             <div className='progressionButtons'>

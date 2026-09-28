@@ -1,5 +1,5 @@
 import {describe, it, expect} from 'vitest';
-import { calculateMileageExpense, formatDate, formatExpenseType } from '../utils/expenseUtils';
+import { calculateMileageExpense, formatDate, formatExpenseType, sumExpenses } from '../utils/expenseUtils';
 
 describe('calculateMileageExpense', () => {
   it('should calculate the correct expense amount for given mileage', () => {
@@ -45,5 +45,65 @@ describe('formatExpenseType', () => {
     expect(formatExpenseType('public transport')).toBe('Public transport');
     expect(formatExpenseType('other')).toBe('Other');
     expect(formatExpenseType('new extra option')).toBe('New extra option');
+  })
+})
+
+describe('sumExpenses', () => {
+  it('should return the sum total of monetary values', () => {
+    const testExpenseSet1 = [
+      {
+        expenseType: 'mileage',
+        description: 'Travel to training',
+        date: '2026-03-05',
+        inputValue: '100',
+        monetaryValue: '55'
+      },
+      {
+        expenseType: 'accommodation',
+        description: 'Hotel',
+        date: '2026-03-05',
+        inputValue: '95',
+        monetaryValue: '95'
+      },
+      {
+        expenseType: 'sustenance',
+        description: 'Evening meal',
+        date: '2026-03-05',
+        inputValue: '25',
+        monetaryValue: '25'
+      }
+    ];
+    const testExpenseSet2 = [
+      {
+        expenseType: 'mileage',
+        description: 'Travel to training',
+        date: '2026-03-05',
+        inputValue: '85',
+        monetaryValue: '46.75'
+      },
+      {
+        expenseType: 'accommodation',
+        description: 'Hotel',
+        date: '2026-03-05',
+        inputValue: '109.84',
+        monetaryValue: '109.84'
+      },
+      {
+        expenseType: 'sustenance',
+        description: 'Evening meal',
+        date: '2026-03-05',
+        inputValue: '26.98',
+        monetaryValue: '26.98'
+      }
+    ];
+
+    expect(sumExpenses(testExpenseSet1)).toBe('175.00')
+    expect(sumExpenses(testExpenseSet2)).toBe('183.57')
+  });
+
+  it('should return 0.00 with no expenses added', () => {
+    const testExpenses3 = []
+
+    expect(sumExpenses(testExpenses3)).toBe('0.00');
   })
 })
