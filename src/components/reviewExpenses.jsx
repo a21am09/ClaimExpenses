@@ -1,5 +1,5 @@
 import { formatExpenseType, sumExpenses } from "../utils/expenseUtils"
-export default function ReviewExpenses ({expenses, onNavigateBackwards}) {
+export default function ReviewExpenses ({expenses, onRemoveExpense, onNavigateBackwards}) {
     return (
         <section>
             <h2>Expenses on this claim</h2>
@@ -13,6 +13,7 @@ export default function ReviewExpenses ({expenses, onNavigateBackwards}) {
                             </div>
                             <div className='expenseInfoRight'>
                                 <p><strong>£{expense.monetaryValue}</strong></p>
+                                <button className='secondaryButton' onClick={() => onRemoveExpense(expense.id)}>Remove</button>
                             </div>
                         </article>
                     )
