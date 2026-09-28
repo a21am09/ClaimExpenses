@@ -39,3 +39,10 @@ export function formatDate(date) {
 export function formatExpenseType(expenseType) {
   return String(expenseType).charAt(0).toUpperCase() + String(expenseType).slice(1);
 }
+
+export function sumExpenses(expenses) {
+  const sum = expenses.reduce((cumulativeTotal, expense) => {
+    return cumulativeTotal + Number(expense.monetaryValue)
+  }, 0)
+  return Number(sum).toFixed(2);
+}
