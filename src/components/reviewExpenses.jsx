@@ -13,7 +13,7 @@ export default function ReviewExpenses ({expenses, onRemoveExpense, onNavigateBa
                             </div>
                             <div className='expenseInfoRight'>
                                 <p><strong>£{expense.monetaryValue}</strong></p>
-                                <button className='secondaryButton' onClick={() => onRemoveExpense(expense.id)}>Remove</button>
+                                <button className='secondaryButton' aria-label={`Remove ${expense.description}`} onClick={() => onRemoveExpense(expense.id)}>Remove</button>
                             </div>
                         </article>
                     )

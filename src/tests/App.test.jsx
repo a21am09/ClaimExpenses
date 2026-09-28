@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import App from '/src/App.jsx'
+import { expect } from 'vitest'
 
 describe('Expense Claims App', () => {
   it('renders the App component', () => {
@@ -83,5 +84,37 @@ describe('Expense Claims App', () => {
     expect(screen.getByText(/Expenses on this claim/i)).toBeInTheDocument();
     expect(screen.getByText(/Travel to training/i)).toBeInTheDocument();
     expect(screen.getByText(/Emergency travel/i)).toBeInTheDocument();
+  });
+
+  it('deletes an expense when the remove button is clicked', async () => {
+    render(<App />);
+
+    // Expense 1
+    await userEvent.type(screen.getByLabelText(/Description/i), 'Travel to training');
+    await userEvent.type(screen.getByLabelText(/Miles/i), '100');
+    await userEvent.type(screen.getByLabelText(/Date/i), '01/06/2026');
+    await userEvent.click(screen.getByRole('button', { name: /Add expense/i }));
+
+    // Expense 2
+    await userEvent.type(screen.getByLabelText(/Description/i), 'Emergency travel');
+    await userEvent.type(screen.getByLabelText(/Miles/i), '200');
+    await userEvent.type(screen.getByLabelText(/Date/i), '02/06/2026');
+    await userEvent.click(screen.getByRole('button', { name: /Add expense/i }));
+
+    await userEvent.click(screen.getByRole('button', { name: /Review expenses/i }));
+
+    expect(screen.getByText(/Expenses on this claim/i)).toBeInTheDocument();
+    expect(screen.getByText(/Travel to training/i)).toBeInTheDocument();
+    expect(screen.getByText(/Emergency travel/i)).toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole('button', { name: 'Remove Travel to training' }));
+
+    expect(screen.queryByText(/Travel to training/i)).not.toBeInTheDocument();
+    expect(screen.getByText(/Emergency travel/i)).toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole('button', { name:'Remove Emergency travel' }));
+
+    expect(screen.queryByText(/Travel to training/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Emergency travel/i)).not.toBeInTheDocument();
   });
 })
