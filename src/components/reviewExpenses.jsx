@@ -1,5 +1,5 @@
 import { approvalRequired, formatExpenseType, sumExpenses } from "../utils/expenseUtils"
-export default function ReviewExpenses ({expenses, onRemoveExpense, onNavigateBackwards}) {
+export default function ReviewExpenses ({expenses, onRemoveExpense, onNavigateForwards, onNavigateBackwards}) {
     return (
         <section>
             <h2>Expenses on this claim</h2>
@@ -28,6 +28,7 @@ export default function ReviewExpenses ({expenses, onRemoveExpense, onNavigateBa
 
             <div className='progressionButtons'>
                 <button className='secondaryButton navigation' onClick={onNavigateBackwards}>Add another expense</button>
+                <button className='primaryButton navigation' onClick={onNavigateForwards}>View claim</button>
             </div>
         </section>
     )
