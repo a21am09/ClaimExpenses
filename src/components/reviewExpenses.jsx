@@ -1,4 +1,4 @@
-import { formatExpenseType, sumExpenses } from "../utils/expenseUtils"
+import { approvalRequired, formatExpenseType, sumExpenses } from "../utils/expenseUtils"
 export default function ReviewExpenses ({expenses, onRemoveExpense, onNavigateBackwards}) {
     return (
         <section>
@@ -10,6 +10,7 @@ export default function ReviewExpenses ({expenses, onRemoveExpense, onNavigateBa
                             <div className='expenseInfoLeft'>
                                 <h3>{expense.description}</h3>
                                 <p>{formatExpenseType(expense.type)} on {expense.date}</p>
+                                {approvalRequired(expense) ? <p className='approvalWarning'><strong>This expense will require line manager approval</strong></p> : null}
                             </div>
                             <div className='expenseInfoRight'>
                                 <p><strong>£{expense.monetaryValue}</strong></p>
