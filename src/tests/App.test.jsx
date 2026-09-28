@@ -117,4 +117,72 @@ describe('Expense Claims App', () => {
     expect(screen.queryByText(/Travel to training/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/Emergency travel/i)).not.toBeInTheDocument();
   });
+
+  it('displays all expenses on the claim summary screen', async () => {
+    render(<App />);
+
+    // Expense 1
+    await userEvent.type(screen.getByLabelText(/Description/i), 'Travel to training');
+    await userEvent.type(screen.getByLabelText(/Miles/i), '100');
+    await userEvent.type(screen.getByLabelText(/Date/i), '01/06/2026');
+    await userEvent.click(screen.getByRole('button', { name: /Add expense/i }));
+
+    // Expense 2
+    await userEvent.type(screen.getByLabelText(/Description/i), 'Emergency travel');
+    await userEvent.type(screen.getByLabelText(/Miles/i), '200');
+    await userEvent.type(screen.getByLabelText(/Date/i), '02/06/2026');
+    await userEvent.click(screen.getByRole('button', { name: /Add expense/i }));
+
+    await userEvent.click(screen.getByRole('button', { name: /Review expenses/i }));
+    await userEvent.click(screen.getByRole('button', { name: /View claim/i }));
+
+    expect(screen.getByText(/Travel to training/i)).toBeInTheDocument();
+    expect(screen.getByText(/Emergency travel/i)).toBeInTheDocument();
+  });
+
+  it('displays line manager approver fields when one or more expense is over the approval threshold', async () => {
+    render(<App />);
+
+    // Expense 1
+    await userEvent.type(screen.getByLabelText(/Description/i), 'Travel to training');
+    await userEvent.type(screen.getByLabelText(/Miles/i), '100');
+    await userEvent.type(screen.getByLabelText(/Date/i), '01/06/2026');
+    await userEvent.click(screen.getByRole('button', { name: /Add expense/i }));
+
+    // Expense 2
+    await userEvent.type(screen.getByLabelText(/Description/i), 'Emergency travel');
+    await userEvent.type(screen.getByLabelText(/Miles/i), '200');
+    await userEvent.type(screen.getByLabelText(/Date/i), '02/06/2026');
+    await userEvent.click(screen.getByRole('button', { name: /Add expense/i }));
+
+    await userEvent.click(screen.getByRole('button', { name: /Review expenses/i }));
+    await userEvent.click(screen.getByRole('button', { name: /View claim/i }));
+
+    expect(screen.getByText(/Name/i)).toBeInTheDocument();
+    expect(screen.getByText(/Signature/i)).toBeInTheDocument();
+
+  });
+
+  it('does not display line manager approver fields when all expenses are under approval thesholds', async () => {
+    render(<App />);
+
+    // Expense 1
+    await userEvent.type(screen.getByLabelText(/Description/i), 'Travel to training');
+    await userEvent.type(screen.getByLabelText(/Miles/i), '50');
+    await userEvent.type(screen.getByLabelText(/Date/i), '01/06/2026');
+    await userEvent.click(screen.getByRole('button', { name: /Add expense/i }));
+
+    // Expense 2
+    await userEvent.type(screen.getByLabelText(/Description/i), 'Emergency travel');
+    await userEvent.type(screen.getByLabelText(/Miles/i), '15');
+    await userEvent.type(screen.getByLabelText(/Date/i), '02/06/2026');
+    await userEvent.click(screen.getByRole('button', { name: /Add expense/i }));
+
+    await userEvent.click(screen.getByRole('button', { name: /Review expenses/i }));
+    await userEvent.click(screen.getByRole('button', { name: /View claim/i }));
+
+    expect(screen.queryByText(/Name/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Signature/i)).not.toBeInTheDocument();
+
+  });
 })
