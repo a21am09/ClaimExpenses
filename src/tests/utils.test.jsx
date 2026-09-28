@@ -1,5 +1,12 @@
 import {describe, it, expect} from 'vitest';
-import { calculateMileageExpense, formatDate, formatExpenseType } from '../utils/expenseUtils';
+import { 
+  approvalRequired, 
+  calculateMileageExpense, 
+  formatDate, 
+  formatExpenseType, 
+  sumExpenses 
+} from '../utils/expenseUtils';
+import { testExpensesSets } from './testData';
 
 describe('calculateMileageExpense', () => {
   it('should calculate the correct expense amount for given mileage', () => {
@@ -46,4 +53,41 @@ describe('formatExpenseType', () => {
     expect(formatExpenseType('other')).toBe('Other');
     expect(formatExpenseType('new extra option')).toBe('New extra option');
   })
+})
+
+describe('sumExpenses', () => {
+  it('should return the sum total of monetary values', () => {
+    expect(sumExpenses(testExpensesSets.wholeNumbersValues)).toBe('175.00')
+    expect(sumExpenses(testExpensesSets.decimalNumberValues)).toBe('183.57')
+  });
+
+  it('should return 0.00 with no expenses added', () => {
+    expect(sumExpenses(testExpensesSets.blankExpense)).toBe('0.00');
+  })
+});
+
+describe('approvalRequired', () => {
+  it('should return true if monetary value has exceeded threshold for expense type', () => {
+    expect(approvalRequired(testExpensesSets.exceedThreshold[0])).toBe(true);
+    expect(approvalRequired(testExpensesSets.exceedThreshold[1])).toBe(true);
+    expect(approvalRequired(testExpensesSets.exceedThreshold[2])).toBe(true);
+    expect(approvalRequired(testExpensesSets.exceedThreshold[3])).toBe(true);
+    expect(approvalRequired(testExpensesSets.exceedThreshold[4])).toBe(true);
+  });
+
+  it('should return false if monetary value has not exceeded threshold for expense type', () => {
+    expect(approvalRequired(testExpensesSets.underThreshold[0])).toBe(false);
+    expect(approvalRequired(testExpensesSets.underThreshold[1])).toBe(false);
+    expect(approvalRequired(testExpensesSets.underThreshold[2])).toBe(false);
+    expect(approvalRequired(testExpensesSets.underThreshold[3])).toBe(false);
+    expect(approvalRequired(testExpensesSets.underThreshold[4])).toBe(false);
+  });
+
+  it('should return flase if monetary value equals threshold for expense type', () => {
+    expect(approvalRequired(testExpensesSets.underThreshold[0])).toBe(false);
+    expect(approvalRequired(testExpensesSets.underThreshold[1])).toBe(false);
+    expect(approvalRequired(testExpensesSets.underThreshold[2])).toBe(false);
+    expect(approvalRequired(testExpensesSets.underThreshold[3])).toBe(false);
+    expect(approvalRequired(testExpensesSets.underThreshold[4])).toBe(false);
+  });
 })

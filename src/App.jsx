@@ -12,6 +12,10 @@ function App() {
     setExpenses((currentExpenses) => [...currentExpenses, newExpense]);
   };
 
+  function removeExpense(expenseId) {
+   setExpenses((currentExpense) => currentExpense.filter((expense) => expense.id !== expenseId))
+  }
+
   return (
     <main className='appContainer'>
 
@@ -33,6 +37,7 @@ function App() {
         currentScreen === 'review' ?  (
           <ReviewExpenses
             expenses = {expenses}
+            onRemoveExpense={removeExpense}
             onNavigateBackwards={() => setCurrentScreen('add')}
           />)
           : null
