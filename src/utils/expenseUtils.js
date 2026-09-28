@@ -15,7 +15,7 @@ export function calculateMileageExpense(miles) {
 // Determine the value of the expense based on the type of expense
 export function expenseValue(expenseType, inputValue) {
   if (expenseType === 'mileage') {
-    return calculateMileageExpense(inputValue);
+    return calculateMileageExpense(inputValue).toFixed(2);
   }
   return Number(inputValue).toFixed(2);
 }
