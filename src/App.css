@@ -172,6 +172,55 @@ button {
   border-radius: 5px;
 }
 
+.claimTotal.summary {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin: 1.5rem 0.5rem 1.5rem 0.5rem;
+  padding: 1.25rem;
+  font-size: 1.5rem;
+  background-color: var(--colour-surface);
+  border-radius: 5px;
+}
+
+.claimTotalRow{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .approvalWarning {
   color: var(--colour-warning);
+}
+
+.approverFields {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+
+.approverFieldInput {
+  border: 1.5px solid var(--colour-border);
+  border-radius: 5px;
+  padding: 0.5rem;
+  width: 180px;
+}
+
+.summarySubTitle{
+  display: flex;
+  flex-direction: column;
+  font-size: 1.25rem;
+  margin: 1.5rem;
+}
+
+@media print {
+  .noPrint {
+    display: none;
+  }
 }

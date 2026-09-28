@@ -2,6 +2,7 @@ import { useState } from 'react'
 import './App.css'
 import ExpenseInput from './components/expenseInput.jsx';
 import ReviewExpenses from './components/reviewExpenses.jsx';
+import ClaimSummary from './components/claimSummary.jsx';
 
 function App() {
 
@@ -38,7 +39,20 @@ function App() {
           <ReviewExpenses
             expenses = {expenses}
             onRemoveExpense={removeExpense}
+            onNavigateForwards={() => setCurrentScreen('summary')}
             onNavigateBackwards={() => setCurrentScreen('add')}
+          />)
+          : null
+      }
+
+      {
+        currentScreen === 'summary' ?  (
+          <ClaimSummary
+            expenses={expenses}
+            onNavigateBackwards={() => setCurrentScreen('review')}
+
+
+
           />)
           : null
       }
