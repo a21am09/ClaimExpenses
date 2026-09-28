@@ -43,7 +43,7 @@ export default function ClaimSummary({ expenses, onNavigateBackwards }){
                     </div> : null
                 }
 
-                <div className='progressionButtons'>
+                <div className='progressionButtons noPrint'>
                     <button className='secondaryButton navigation' onClick={onNavigateBackwards}>Review expenses</button>
             </div>
             </section>
