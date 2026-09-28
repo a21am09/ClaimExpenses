@@ -21,6 +21,11 @@
   /* Borders */
   --colour-border: #E5E7EB;
 
+  /* State */
+  --colour-success: #2EAD62;
+  --colour-warning: #F59E0b;
+  --colour-error: #DC2626;
+
   text-align: center;
 }
 
@@ -165,4 +170,8 @@ button {
   font-size: 1.5rem;
   background-color: var(--colour-surface);
   border-radius: 5px;
+}
+
+.approvalWarning {
+  color: var(--colour-warning);
 }

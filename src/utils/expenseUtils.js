@@ -1,4 +1,11 @@
 const mileageRate = 0.55;
+const approvalThreshold = {
+  'mileage': 100,
+  'accommodation': 250,
+  'sustenance': 25,
+  'publicTransport': 150,
+  'other': 25
+}
 
 // Calculate the expense amount based on mileage given
 export function calculateMileageExpense(miles) {
@@ -45,4 +52,19 @@ export function sumExpenses(expenses) {
     return cumulativeTotal + Number(expense.monetaryValue)
   }, 0)
   return Number(sum).toFixed(2);
+}
+
+export function approvalRequired(expense) {
+  switch (expense.type) {
+    case 'mileage':
+      return expense.monetaryValue > approvalThreshold.mileage;
+    case 'accommodation':
+      return expense.monetaryValue > approvalThreshold.accommodation;
+    case 'sustenance':
+      return expense.monetaryValue > approvalThreshold.sustenance;
+    case 'public transport':
+      return expense.monetaryValue > approvalThreshold.publicTransport;
+    case 'other':
+      return expense.monetaryValue > approvalThreshold.other;
+  }
 }
