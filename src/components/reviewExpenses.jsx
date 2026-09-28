@@ -1,5 +1,5 @@
-import { formatExpenseType } from "../utils/expenseUtils"
-export default function ReviewExpenses ({expenses, onNavigateBackwards}) {
+import { approvalRequired, formatExpenseType, sumExpenses } from "../utils/expenseUtils"
+export default function ReviewExpenses ({expenses, onRemoveExpense, onNavigateBackwards}) {
     return (
         <section>
             <h2>Expenses on this claim</h2>
@@ -10,9 +10,11 @@ export default function ReviewExpenses ({expenses, onNavigateBackwards}) {
                             <div className='expenseInfoLeft'>
                                 <h3>{expense.description}</h3>
                                 <p>{formatExpenseType(expense.type)} on {expense.date}</p>
+                                {approvalRequired(expense) ? <p className='approvalWarning'><strong>This expense will require line manager approval</strong></p> : null}
                             </div>
                             <div className='expenseInfoRight'>
                                 <p><strong>£{expense.monetaryValue}</strong></p>
+                                <button className='secondaryButton' aria-label={`Remove ${expense.description}`} onClick={() => onRemoveExpense(expense.id)}>Remove</button>
                             </div>
                         </article>
                     )
@@ -21,7 +23,7 @@ export default function ReviewExpenses ({expenses, onNavigateBackwards}) {
 
             <div className='claimTotal'>
                 <span>Total claim</span>
-                <strong>£Total</strong>
+                <strong>£{sumExpenses(expenses)}</strong>
             </div>
 
             <div className='progressionButtons'>

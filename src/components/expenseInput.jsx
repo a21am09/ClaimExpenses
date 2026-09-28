@@ -23,6 +23,7 @@ export default function ExpenseInput({ expenses, onAddExpense, onNavigateForward
     function handleSubmit(e) {
         e.preventDefault();
         const newExpense = {
+            id:crypto.randomUUID(),
             type: expenseData.expenseType,
             description: expenseData.description,
             date: formatDate(expenseData.date),
