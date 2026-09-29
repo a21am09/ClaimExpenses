@@ -27,8 +27,8 @@ export default function ReviewExpenses ({expenses, onRemoveExpense, onNavigateFo
             </div>
 
             <div className='progressionButtons'>
-                <button className='secondaryButton navigation' onClick={onNavigateBackwards}>Add another expense</button>
-                <button className='primaryButton navigation' onClick={onNavigateForwards}>View claim</button>
+                <button className='secondaryButton navigation' aria-label='Add another expense' onClick={onNavigateBackwards}>Add another expense</button>
+                <button className='primaryButton navigation' aria-label='View claim' onClick={onNavigateForwards}>View claim</button>
             </div>
         </section>
     )
