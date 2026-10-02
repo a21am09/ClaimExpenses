@@ -99,10 +99,10 @@ export default function ExpenseInput({ expenses, onAddExpense, onNavigateForward
           <p className='mileageMonetaryValue'>Value of mileage expense: <strong>£{expenseMonetaryValue}</strong></p> : null
         }
 
-        <button className='primaryButton add' type='submit'>Add expense</button>
+        <button className='primaryButton add' type='submit' aria-label='Add expense'>Add expense</button>
       </form>
       <div className='progressionButtons'>
-        <button className='primaryButton navigation' onClick={onNavigateForwards}>Review expenses</button>
+        <button className='primaryButton navigation' aria-label='Review Expenses' onClick={onNavigateForwards}>Review expenses</button>
       </div>
       </section>
     )

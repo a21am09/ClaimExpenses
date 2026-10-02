@@ -13,7 +13,7 @@ export default function ClaimSummary({ expenses, onNavigateBackwards }){
                         return (
                             <article className='expenseListItem'>
                                 <div className='expenseInfoLeft'>
-                                    <h3>{expense.description}</h3>
+                                    <h2>{expense.description}</h2>
                                     <p>{formatExpenseType(expense.type)} on {expense.date}</p>
                                 </div>
                                 <div className='expenseInfoRight'>
@@ -36,15 +36,15 @@ export default function ClaimSummary({ expenses, onNavigateBackwards }){
                 </div>
                 {approval ?
                     <div className='approverFields'>
-                        <label>Name</label>
-                        <input type='text' className='approverFieldInput' />
-                        <label>Signature</label>
-                        <input type='text' className='approverFieldInput' />
+                        <label htmlFor='approverName'>Name</label>
+                        <input id='approverName' type='text' className='approverFieldInput' />
+                        <label htmlFor='approverSignature'>Signature</label>
+                        <input id='approverSignature' type='text' className='approverFieldInput' />
                     </div> : null
                 }
 
                 <div className='progressionButtons noPrint'>
-                    <button className='secondaryButton navigation' onClick={onNavigateBackwards}>Review expenses</button>
+                    <button className='secondaryButton navigation' aria-label='Review expenses' onClick={onNavigateBackwards}>Review expenses</button>
             </div>
             </section>
     )
